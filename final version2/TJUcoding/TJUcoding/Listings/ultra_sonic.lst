@@ -1,0 +1,82 @@
+C51 COMPILER V9.60.7.0   ULTRA_SONIC                                                       08/21/2023 16:40:29 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE ULTRA_SONIC
+OBJECT MODULE PLACED IN .\Objects\ultra_sonic.obj
+COMPILER INVOKED BY: D:\科创\C51\BIN\C51.EXE ultra_sonic.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\
+                    -ultra_sonic.lst) TABS(2) OBJECT(.\Objects\ultra_sonic.obj)
+
+line level    source
+
+   1          #include <ultra_sonic.h>
+   2          
+   3          float Distance = 0;
+   4          
+   5          long Measure_Distance(void)//距离测量函数
+   6          {   
+   7   1        //TR1 = 0;
+   8   1        long int dis = 0;
+   9   1        Timer1Init(); //配置定时器0
+  10   1        TL0 = 0;
+  11   1        //TH1 = 0;
+  12   1        TH0 = 0;
+  13   1        StartModule(); //触发超声波
+  14   1        
+  15   1        while(!Echo); //等待超声波的返回脉冲
+  16   1        
+  17   1        TR0 = 1;      //打开定时器，开始计时
+  18   1        while(Echo);  //等待超声波的返回脉冲结束
+  19   1        TR0 = 0;      //计时结束
+  20   1        
+  21   1      //  Distance = ((TH1*256+TL1)*VELOCITY)/2+1.5; //计算距离
+  22   1        dis = TH0;    //测量结果高八位
+  23   1        dis <<= 8;    //放入十六位的高八位
+  24   1        dis |= TL0; //与低八位合并
+  25   1        Distance = dis * 0.0172;//单位cm
+  26   1        return Distance;
+  27   1      }
+  28          
+  29          void StartModule() //触发一次超声波模块
+  30          {
+  31   1        Trig = 1;
+  32   1        Delay20us();
+  33   1        Trig = 0;
+  34   1      }
+  35          
+  36          
+  37          void Timer1Init(void)
+  38          {
+  39   1        //TMOD &= 0x0F;   //设置定时器模式
+  40   1        
+  41   1        //TMOD |= 0x10;   //设置定时器模式
+  42   1        TMOD &= 0xF0;
+  43   1        TMOD |= 0x01;
+  44   1        //TL1 = 0;
+  45   1        TL0 = 0;
+  46   1        //TH1 = 0;
+  47   1        TH0 = 0;
+  48   1      }
+  49          
+  50          void Delay20us()    //@12.000MHz
+  51          {
+  52   1        unsigned char i;
+  53   1        _nop_();
+  54   1        i = 7;
+C51 COMPILER V9.60.7.0   ULTRA_SONIC                                                       08/21/2023 16:40:29 PAGE 2   
+
+  55   1        while (--i);
+  56   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    137    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

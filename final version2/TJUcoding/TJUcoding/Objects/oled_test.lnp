@@ -1,0 +1,10 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj",
+".\Objects\oled.obj",
+".\Objects\ultra_sonic.obj",
+".\Objects\bluetooth.obj",
+".\Objects\driver.obj",
+".\Objects\tracking.obj",
+".\Objects\obstacle_avoidance.obj" 
+TO ".\Objects\oled_test" 
+PRINT(".\Listings\oled_test.m51")

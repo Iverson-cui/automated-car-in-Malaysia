@@ -1,0 +1,123 @@
+C51 COMPILER V9.60.0.0   TRACKING                                                          08/27/2023 19:03:18 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE TRACKING
+OBJECT MODULE PLACED IN .\Objects\tracking.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE ..\..\..\TJUFINAL\TJUFINAL\TJUcoding\tracking.c OPTIMIZE(8,SPEED) BROWSE
+                    - DEBUG OBJECTEXTEND PRINT(.\Listings\tracking.lst) TABS(2) OBJECT(.\Objects\tracking.obj)
+
+line level    source
+
+   1          #include <tracking.h>
+   2          #include <driver.h>
+   3          
+   4          unsigned char Infrared;
+   5          
+   6          void TRACK(void)
+   7          {
+   8   1        Infrared = P1 & 0x0F;
+   9   1        switch (Infrared)
+  10   1        {
+  11   2        case 0x00:
+  12   2          zhizou(); break;   //0000
+  13   2        case 0x08:
+  14   2          dazhuan1(); break; //1000
+  15   2        case 0x04:
+  16   2          weitiao1(); break; //0100
+  17   2        case 0x02:
+  18   2          weitiao2(); break; //0010
+  19   2        case 0x01:
+  20   2          dazhuan2(); break; //0001
+  21   2        case 0x0C:
+  22   2          dazhuan1(); break; //1100
+  23   2        case 0x03:
+  24   2          dazhuan2(); break; //0011
+  25   2        case 0x0E:
+  26   2          dazhuan1(); break; //1110
+  27   2        case 0x07:
+  28   2          dazhuan2(); break; //0111
+  29   2        case 0x0F:
+  30   2          zhizou(); break;   //1111
+  31   2        case 0x06:
+  32   2         zhizou(); break;   //0110
+  33   2        case 0x05:
+  34   2         dazhuan2(); break;  //0101
+  35   2         case 0x0A:
+  36   2         dazhuan1(); break;  //1010
+  37   2        default:   break;
+  38   2        }
+  39   1      }
+  40          
+  41          void zhizou()
+  42          {
+  43   1        Motor_Left(1, 35);
+  44   1        Motor_Right(1, 35);
+  45   1      }
+  46          
+  47          void zhizou2()
+  48          {
+  49   1        Motor_Left(1, 20);
+  50   1        Motor_Right(1, 20);
+  51   1      }
+  52          
+  53          void dazhuan1()
+  54          {
+C51 COMPILER V9.60.0.0   TRACKING                                                          08/27/2023 19:03:18 PAGE 2   
+
+  55   1          while ( P1 & 0x0F ) {         //0x0F is 0000 1111 only when all are white does the car stop going straig
+             -ht 
+  56   2            zhizou2();
+  57   2          }
+  58   1          while ( (P1 & 0X04) != 0x04) {  //0x04=0000 0100 when the left second touch the line 
+  59   2            Motor_Left(0, 50);
+  60   2            Motor_Right(1, 50);
+  61   2          }
+  62   1          while ( P1 & 0x0F ) {   //only when all four are white does the car stop turning 
+  63   2              Motor_Left(0, 50);
+  64   2              Motor_Right(1, 50);
+  65   2          }
+  66   1      }
+  67          
+  68          void dazhuan2()
+  69          {
+  70   1          while ( P1 & 0x0F ) {
+  71   2            zhizou2();
+  72   2          }
+  73   1          while ( (P1 & 0x02) != 0x02) {    //0x02?0000 0010 P0&0x0F only can be 0000 and 0010
+  74   2              Motor_Left(1, 50);
+  75   2              Motor_Right(0, 50); 
+  76   2              }       
+  77   1          while ( P1 & 0x0F ) {
+  78   2              Motor_Left(1, 50);
+  79   2              Motor_Right(0, 50);
+  80   2          }
+  81   1        }
+  82          
+  83          
+  84          void weitiao1()
+  85          {
+  86   1        
+  87   1          Motor_Left(0, 35); Motor_Right(1, 55);
+  88   1      }
+  89          
+  90          void weitiao2()
+  91          {
+  92   1          
+  93   1          Motor_Left(1, 55); Motor_Right(0, 35);
+  94   1      }
+  95          
+  96          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    284    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

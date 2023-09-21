@@ -1,0 +1,8 @@
+".\Objects\STARTUP.obj",
+".\Objects\main.obj",
+".\Objects\ultra_sonic.obj",
+".\Objects\driver.obj",
+".\Objects\tracking.obj",
+".\Objects\obstacle_avoidance.obj" 
+TO ".\Objects\1" 
+PRINT(".\Listings\1.m51")
